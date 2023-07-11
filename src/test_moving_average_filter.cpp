@@ -1,8 +1,29 @@
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
+#include <iostream>
 #include "MovingAverageFilter.hpp"
-#include "doctest.h"
 
+
+int main(){
+    mtrn3100::MovingAverageFilter<float, 3> maf;
+    for(float i = 0; i < 1000; i++){
+        float input;
+
+        std::cout << "Enter Value: ";
+        std::cin >> input;
+        maf.sample(input);
+        if( i < maf.capacity() ){
+        //the filter output won't be valid until the sum buffer is full
+            printf("filter not full\n");
+        } else {
+            const auto value = maf.average();
+            printf("Running filter value is %0.3f\n", value);
+        }
+    }
+
+    return 0;
+}
+
+/*
 TEST_CASE("Empty buffer") {
     mtrn3100::MovingAverageFilter<int, 10> maf;
     CHECK_EQ(maf.isEmpty(), true);
@@ -64,4 +85,4 @@ TEST_CASE("Cleared buffer") {
     CHECK_EQ(maf.size(), 0);
     CHECK_EQ(maf.capacity(), 3);
     CHECK_EQ(maf.average(), 0);
-} 
+} */
